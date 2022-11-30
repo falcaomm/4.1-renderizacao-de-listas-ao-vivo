@@ -42,6 +42,15 @@ export const ListaContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
+  padding-bottom: 16px;
+  border-bottom: 1px solid gray;
+`;
+
+export const ListaRemovidosContainer = styled.div`
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 `;
 
 export const RemoveButton = styled.button`
@@ -66,4 +75,21 @@ export const Tarefa = styled.li`
   &:hover {
     background-color: lightblue;
   }
+`;
+
+
+export const TarefaConcluida = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 6px 8px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: lightblue;
+  }
+  text-decoration: line-through;
+  opacity: 40%;
 `;

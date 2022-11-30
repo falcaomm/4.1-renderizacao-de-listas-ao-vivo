@@ -7,12 +7,16 @@ import {
   TaskInput,
   AddTaskButton,
   RemoveButton,
+  TarefaConcluida,
+  ListaRemovidosContainer
 } from "./styled";
 import bin from "../../assets/bin.png";
+import TarefasConcluidas from "../tarefasConcluidas";
 
 export function ListaTarefas() {
   const [novaTarefa, setNovaTarefa] = useState("");
   const [lista, setLista] = useState(["Tomar Banho", "Dormir", "Comer"])
+  const [listaRemovidos, setListaRemovidos] = useState([])
 
   const onChangeTarefa = (event) => {
     setNovaTarefa(event.target.value);
@@ -22,26 +26,41 @@ export function ListaTarefas() {
     const novaLista = [...lista, novaTarefa]
     setLista(novaLista)
     setNovaTarefa("")
+
   };
 
   const listaTela = lista.map((item, index) => {
     return (
-      <ul>
         <Tarefa key={index}>
           {item}
           <RemoveButton onClick={() => removeTarefa(item)} >
             <img src={bin} alt="" width="16px" />
           </RemoveButton>
         </Tarefa>
-      </ul>
     )
   });
 
   const removeTarefa = (parametro) => {
-    const removeItemLista = lista.filter((tarefa) =>
+    const listaAtualizada = lista.filter((tarefa) =>
       tarefa !== parametro
     )
-    setLista(removeItemLista)
+    setLista(listaAtualizada)
+
+    // const listaDosRemovidos = [...listaRemovidos, parametro]
+
+    listaRemovidos.push(parametro)
+
+    setListaRemovidos(listaRemovidos)
+
+    // console.log(listaDosRemovidos);
+
+    console.log(listaRemovidos);
+  }
+
+  const addTarefaEnter = (e) => {
+    if (e.key === "Enter") {
+      adicionaTarefa()
+    }
   }
 
   return (
@@ -50,13 +69,14 @@ export function ListaTarefas() {
         <TaskInput
           placeholder="Digite aqui uma tarefa"
           value={novaTarefa}
-          onChange={onChangeTarefa}
+          onChange={onChangeTarefa} 
+          onKeyUp={addTarefaEnter}
         />
         <AddTaskButton onClick={adicionaTarefa}>Adicionar</AddTaskButton>
       </InputContainer>
 
       <ListaContainer>
-        {listaTela}
+        <ul>{listaTela}</ul>
 
         {/* {lista.map((item, index) => {
           return (
@@ -72,6 +92,13 @@ export function ListaTarefas() {
         })} */}
 
       </ListaContainer>
+
+      <ListaRemovidosContainer>      
+        <TarefasConcluidas
+          listaRemovidos={listaRemovidos}
+      />
+      </ListaRemovidosContainer>
+
     </ListaTarefasContainer>
   );
 }
